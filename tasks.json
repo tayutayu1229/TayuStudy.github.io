@@ -1,0 +1,66 @@
+{
+  "11": [
+    { "id": 37, "subject": "歴史総合", "taskName": "普通科ベーシック第3回　国際秩序の変化や大衆化と私たち（1）", "priority": "A", "status": "未着手" },
+    { "id": 38, "subject": "数学Ⅰ", "taskName": "普通科ベーシック【第3回】方程式と不等式", "priority": "S", "status": "未着手" },
+    { "id": 39, "subject": "地理総合", "taskName": "普通科ベーシック第3回　生活文化と地理的環境(2)", "priority": "A", "status": "未着手" },
+    { "id": 40, "subject": "言語文化", "taskName": "普通科ベーシック【第3回】小説３", "priority": "A", "status": "未着手" },
+    { "id": 41, "subject": "英語コミュニケーションⅠ", "taskName": "普通科ベーシック第4回　【Lesson 5】Learning from the Sea／【Reading 1】Short Stories in English", "priority": "A", "status": "未着手" },
+    { "id": 42, "subject": "現代の国語", "taskName": "普通科ベーシック【第3回】視野を広げる", "priority": "A", "status": "未着手" },
+    { "id": 43, "subject": "数学Ⅰ", "taskName": "普通科ベーシック【第4回】2次関数とそのグラフ", "priority": "S", "status": "未着手" },
+    { "id": 44, "subject": "科学と人間生活", "taskName": "普通科ベーシック【第3回】物質の科学", "priority": "S", "status": "未着手" },
+    { "id": 45, "subject": "公共", "taskName": "普通科ベーシック第3回　現代社会と政治", "priority": "A", "status": "未着手" },
+    { "id": 46, "subject": "英語コミュニケーションⅠ", "taskName": "普通科ベーシック第3回{Lesson 3}A Train Driver in Sanriku／{Lesson 4}A Miracle Mirror", "priority": "A", "status": "未着手" },
+    { "id": 47, "subject": "情報Ⅰ", "taskName": "普通科ベーシック【第2回】情報を伝える", "priority": "C", "status": "未着手" },
+    { "id": 48, "subject": "家庭基礎", "taskName": "第一学習社版普通科ベーシック【第2回】ともに生きる／食生活をつくる", "priority": "C", "status": "未着手" },
+    { "id": 49, "subject": "体育Ⅰ", "taskName": "第一学習社版普通科ベーシック【第1回】スポーツの文化的特性と現代スポーツの発展／他", "priority": "C", "status": "未着手" }
+  ],
+  "12": [
+    { "id": 50, "subject": "数学Ⅰ", "taskName": "普通科ベーシック【第5回】2次関数", "priority": "S", "status": "未着手" },
+    { "id": 51, "subject": "英語コミュニケーションⅠ", "taskName": "普通科ベーシック第5回{Lesson 6}A Funny Picture from the Edo Period／{Lesson 7}A Diary of Hope", "priority": "A", "status": "未着手" },
+    { "id": 52, "subject": "言語文化 (テスト)", "taskName": "普通科ベーシック2025年度 第1回 定期テスト", "priority": "S", "status": "未着手" },
+    { "id": 53, "subject": "数学Ⅰ (テスト)", "taskName": "普通科ベーシック2025年度 第1回 定期テスト", "priority": "S", "status": "未着手" },
+    { "id": 54, "subject": "英語コミュニケーションⅠ", "taskName": "普通科ベーシック2025年度 第1回 定期テスト", "priority": "S", "status": "未着手" }
+  ],
+  "1": [
+    { "id": 1, "subject": "現代の国語", "taskName": "普通科ベーシック【第4回】社会と関わる・言葉と生活 2", "priority": "B", "status": "未着手" },
+    { "id": 2, "subject": "言語文化", "taskName": "普通科ベーシック【第4回】古文入門・随筆", "priority": "B", "status": "未着手" },
+    { "id": 3, "subject": "地理総合", "taskName": "普通科ベーシック第4回　地球的課題と国際協力(1)", "priority": "B", "status": "未着手" },
+    { "id": 4, "subject": "歴史総合", "taskName": "普通科ベーシック第4回　国際秩序の変化や大衆化と私たち（2）", "priority": "B", "status": "未着手" },
+    { "id": 5, "subject": "公共", "taskName": "普通科ベーシック第4回　現代社会と経済⑴", "priority": "B", "status": "未着手" },
+    { "id": 6, "subject": "数学Ⅰ", "taskName": "普通科ベーシック【第6回】三角比⑴", "priority": "S", "status": "未着手" },
+    { "id": 7, "subject": "科学と人間生活", "taskName": "普通科ベーシック【第4回】光や熱の科学", "priority": "S", "status": "未着手" },
+    { "id": 8, "subject": "英語コミュニケーションⅠ", "taskName": "普通科ベーシック第6回{Lesson 8}A Door to a New Life", "priority": "A", "status": "未着手" },
+    { "id": 9, "subject": "家庭基礎", "taskName": "第一学習社版普通科ベーシック【第3回】食生活をつくる／調理実習", "priority": "S", "status": "未着手" },
+    { "id": 10, "subject": "情報Ⅰ", "taskName": "普通科ベーシック【第3回】コンピュータを活用する", "priority": "C", "status": "未着手" }
+  ],
+  "2": [
+    { "id": 11, "subject": "現代の国語", "taskName": "普通科ベーシック【第5回】世界とつながる", "priority": "B", "status": "未着手" },
+    { "id": 12, "subject": "言語文化", "taskName": "普通科ベーシック【第5回】詩歌・物語・紀行", "priority": "B", "status": "未着手" },
+    { "id": 13, "subject": "地理総合", "taskName": "普通科ベーシック第5回　地球的課題と国際協力(2)", "priority": "B", "status": "未着手" },
+    { "id": 14, "subject": "歴史総合", "taskName": "普通科ベーシック第5回　グローバル化と私たち（1）", "priority": "B", "status": "未着手" },
+    { "id": 15, "subject": "公共", "taskName": "普通科ベーシック第5回　現代社会と経済⑵", "priority": "B", "status": "未着手" },
+    { "id": 16, "subject": "数学Ⅰ", "taskName": "普通科ベーシック【第7回】三角比⑵", "priority": "S", "status": "未着手" },
+    { "id": 17, "subject": "数学Ⅰ", "taskName": "普通科ベーシック【第8回】データの分析", "priority": "S", "status": "未着手" },
+    { "id": 18, "subject": "科学と人間生活", "taskName": "普通科ベーシック【第5回】宇宙や地球の科学", "priority": "S", "status": "未着手" },
+    { "id": 19, "subject": "英語コミュニケーションⅠ", "taskName": "普通科ベーシック第7回{Lesson 9}Fighting Plastic Pollution", "priority": "A", "status": "未着手" },
+    { "id": 20, "subject": "英語コミュニケーションⅠ", "taskName": "普通科ベーシック第8回{Lesson 10}Pigs from across the Sea", "priority": "A", "status": "未着手" }
+  ],
+  "3": [
+    { "id": 21, "subject": "特別活動Ⅰ", "taskName": "学校生活とキャリア_共通", "priority": "C", "status": "未着手" },
+    { "id": 22, "subject": "現代の国語", "taskName": "普通科ベーシック【第6回】未来に目を向ける", "priority": "B", "status": "未着手" },
+    { "id": 23, "subject": "言語文化", "taskName": "普通科ベーシック【第6回】漢文入門・漢詩・論語・史話", "priority": "B", "status": "未着手" },
+    { "id": 24, "subject": "地理総合", "taskName": "普通科ベーシック第6回　持続可能な地域づくりと私たち", "priority": "B", "status": "未着手" },
+    { "id": 25, "subject": "歴史総合", "taskName": "普通科ベーシック第6回　グローバル化と私たち（2）", "priority": "B", "status": "未着S" },
+    { "id": 26, "subject": "公共", "taskName": "普通科ベーシック第6回　持続可能な社会へ", "priority": "B", "status": "未着手" },
+    { "id": 27, "subject": "数学Ⅰ", "taskName": "普通科ベーシック【第9回】集合と論証", "priority": "S", "status": "未着手" },
+    { "id": 28, "subject": "科学と人間生活", "taskName": "普通科ベーシック【第6回】課題研究", "priority": "S", "status": "未着手" },
+    { "id": 29, "subject": "体育Ⅰ", "taskName": "第一学習社版普通科ベーシック【第2回】サッカー／ハンドボール／卓球／柔道", "priority": "C", "status": "未着手" },
+    { "id": 30, "subject": "英語コミュニケーションⅠ", "taskName": "普通科ベーシック第9回{Reading 2}The Wizard of Oz", "priority": "A", "status": "未着手" },
+    { "id": 31, "subject": "家庭基礎", "taskName": "第一学習社版普通科ベーシック【第4回】衣生活／住生活／経済生活", "priority": "C", "status": "未着手" },
+    { "id": 32, "subject": "情報Ⅰ", "taskName": "普通科ベーシック【第4回】データを活用する", "priority": "C", "status": "未着手" },
+    { "id": 33, "subject": "総合的な探究の時間Ⅰ", "taskName": "自己認知と他者理解について", "priority": "B", "status": "未着手" },
+    { "id": 34, "subject": "言語文化 (テスト)", "taskName": "普通科ベーシック2025年度 第2回 定期テスト", "priority": "S", "status": "未着手" },
+    { "id": 35, "subject": "数学Ⅰ (テスト)", "taskName": "普通科ベーシック2025年度 第2回 定期テスト", "priority": "S", "status": "未着手" },
+    { "id": 36, "subject": "英語 (テスト)", "taskName": "普通科ベーシック2025年度 第2回 定期テスト", "priority": "S", "status": "未着手" }
+  ]
+}
