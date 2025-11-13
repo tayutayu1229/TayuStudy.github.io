@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>スタディ・ダッシュボード</title>
+    <title>最強スタディ・ダッシュボード</title>
 
     <style>
         /* === グローバル変数 === */
@@ -42,9 +42,8 @@
             padding: 20px;
             transition: background-color 0.3s, color 0.3s;
         }
-
         .container {
-            max-width: 900px; /* 少し幅を広げる */
+            max-width: 900px;
             margin: 0 auto;
             background-color: var(--color-surface);
             border-radius: 10px;
@@ -52,29 +51,24 @@
             overflow: hidden;
             transition: background-color 0.3s;
         }
-        
-        main {
-            padding: 20px 30px 30px;
+        main { padding: 20px 30px 30px; }
+        h1 { margin: 0; font-size: 1.8em; }
+        h2 { margin: 10px 0; font-weight: 600; border-bottom: 2px solid var(--color-border); padding-bottom: 10px; }
+        h3 { margin: 0 0 15px 0; color: var(--color-primary); }
+        button, .btn {
+            cursor: pointer; padding: 8px 14px; border: none; border-radius: 6px;
+            font-weight: 600; transition: background-color 0.2s, opacity 0.2s;
+            text-decoration: none; display: inline-block;
         }
-
-        button {
-            cursor: pointer;
-            padding: 8px 14px;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: background-color 0.2s, opacity 0.2s;
-        }
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-primary { background-color: var(--color-primary); color: white; }
         .btn-primary:hover { background-color: var(--color-primary-hover); }
         .btn-danger { background-color: var(--color-danger); color: white; }
         .btn-danger:hover { background-color: var(--color-danger-hover); }
         .btn-secondary { background-color: #6c757d; color: white; }
         .btn-secondary:hover { background-color: #5a6268; }
+        .btn-print { background-color: #5a189a; color: white; }
+        .btn-print:hover { background-color: #3c096c; }
 
         input, select, textarea {
             background-color: var(--color-surface);
@@ -83,8 +77,10 @@
             border-radius: 6px;
             padding: 8px 12px;
             font-size: 0.9em;
+            box-sizing: border-box;
         }
-
+        textarea { width: 100%; min-height: 300px; font-family: inherit; }
+        
         /* === ページ切替ナビゲーション === */
         nav {
             background-color: var(--color-bg);
@@ -95,215 +91,213 @@
             align-items: center;
         }
         nav .nav-tabs button {
-            background: none;
-            border: none;
-            padding: 10px 15px;
-            font-size: 1.1em;
-            font-weight: 600;
-            color: var(--color-text-secondary);
+            background: none; border: none; padding: 10px 15px; font-size: 1.1em;
+            font-weight: 600; color: var(--color-text-secondary);
             border-bottom: 3px solid transparent;
         }
-        nav .nav-tabs button.active {
-            color: var(--color-primary);
-            border-bottom-color: var(--color-primary);
-        }
+        nav .nav-tabs button.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
 
-        /* === ★ ページ本体 (非表示切り替え) === */
-        .page {
-            display: none; /* JSで.activeを付与して表示 */
-        }
-        .page.active {
-            display: block;
-        }
+        .page { display: none; }
+        .page.active { display: block; }
 
         /* === 1. プランナーページ === */
-        #page-planner header {
-            border-bottom: 1px solid var(--color-border);
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-        h1 { margin: 0; font-size: 1.8em; }
-        h2 { margin: 10px 0 0; font-weight: 600; }
+        #page-planner header { border-bottom: 1px solid var(--color-border); padding-bottom: 20px; margin-bottom: 20px; }
         #deadline-display { font-size: 1.2em; color: var(--color-danger); }
         #month-selector { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
         .month-tab {
-            padding: 10px 20px;
-            border: 1px solid var(--color-border-input);
-            border-radius: 8px;
-            background-color: var(--color-bg);
-            font-weight: 600;
-            color: var(--color-text-secondary);
+            padding: 10px 20px; border: 1px solid var(--color-border-input); border-radius: 8px;
+            background-color: var(--color-bg); font-weight: 600; color: var(--color-text-secondary);
         }
         .month-tab:hover { background-color: var(--color-border); }
         .month-tab.active { background-color: var(--color-primary); color: white; border-color: var(--color-primary); }
-
         #progress-summary { font-size: 1.1em; font-weight: 600; margin-top: 20px; color: var(--color-primary); }
         #progress-bar-container { width: 100%; background-color: var(--color-border); border-radius: 4px; height: 10px; margin-top: 8px; overflow: hidden; }
         #progress-bar { height: 100%; width: 0%; background-color: var(--color-primary); border-radius: 4px; transition: width 0.5s ease; }
 
-        /* === プランナー: コントロール部 === */
+        /* プランナー: コントロール部 */
         #planner-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; gap: 15px;
         }
         .control-group { display: flex; gap: 10px; align-items: center; }
         .control-group label { font-weight: 600; font-size: 0.9em; }
+        #search-task { width: 160px; }
 
-        /* === プランナー: タスクリスト (List View) === */
+        /* プランナー: タスクリスト */
         .task-item {
-            display: flex;
-            align-items: center;
-            padding: 20px 0;
+            display: flex; align-items: center; padding: 20px 0;
             border-bottom: 1px solid var(--color-border);
-            transition: opacity 0.3s, background-color 0.3s;
+            transition: opacity 0.3s, background-color 0.3s, max-height 0.3s, padding 0.3s;
+            overflow: hidden;
         }
-        .task-item:last-child { border-bottom: none; }
+        .task-item.hidden { max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; border: 0; }
         .task-item[data-status="完了"] { opacity: 0.6; }
         .task-item[data-status="完了"] .task-details { text-decoration: line-through; color: var(--color-text-secondary); }
         .task-item[data-status="作業中"] { background-color: rgba(0, 123, 255, 0.05); }
         body[data-theme="dark"] .task-item[data-status="作業中"] { background-color: rgba(0, 123, 255, 0.1); }
-
         .task-details { flex-grow: 1; margin-right: 15px; }
         .task-subject { font-weight: 600; font-size: 1.1em; margin-bottom: 5px; }
         .task-name { font-size: 0.9em; color: var(--color-text-secondary); }
-
+        
+        .task-completion-date {
+            font-size: 0.8em;
+            font-style: italic;
+            color: var(--color-success);
+            margin-top: 5px;
+        }
+        
         .task-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
         .task-status-select, .task-priority-select {
             padding: 8px 12px; border-radius: 6px; border: 1px solid var(--color-border-input);
             background-color: var(--color-surface); color: var(--color-text-primary);
             font-size: 0.9em; cursor: pointer;
         }
-        /* 優先度ドロップダウンの色 */
         .task-priority-select[data-priority="S"] { border-color: var(--color-danger); background-color: rgba(220, 53, 69, 0.1); }
         .task-priority-select[data-priority="A"] { border-color: var(--color-warning); background-color: rgba(253, 126, 20, 0.1); }
         .task-priority-select[data-priority="B"] { border-color: var(--color-primary); background-color: rgba(0, 123, 255, 0.1); }
         .task-priority-select[data-priority="C"] { border-color: var(--color-success); background-color: rgba(40, 167, 69, 0.1); }
+        .edit-task-btn { background: none; border: none; font-size: 1.2em; color: var(--color-text-secondary); padding: 5px; opacity: 0.7; }
+        .edit-task-btn:hover { color: var(--color-primary); opacity: 1; }
 
-        /* ★ 新機能: 削除ボタン */
-        .delete-task-btn {
-            background: none; border: none; font-size: 1.2em; color: var(--color-text-secondary);
-            padding: 5px; opacity: 0.7;
-        }
-        .delete-task-btn:hover { color: var(--color-danger); opacity: 1; }
-
-        /* === ★ プランナー: カンバンボード (Board View) === */
-        #kanban-board {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto; /* 横スクロール */
-            padding: 10px 0;
-            min-height: 400px;
-        }
-        .kanban-column {
-            flex: 1;
-            min-width: 280px;
-            background-color: var(--color-bg);
-            border-radius: 8px;
-            padding: 15px;
-        }
-        .kanban-column h3 {
-            margin: 0 0 15px 0;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--color-border);
-            color: var(--color-text-primary);
-        }
+        /* プランナー: カンバンボード */
+        #kanban-board { display: none; gap: 15px; overflow-x: auto; padding: 10px 0; min-height: 400px; }
+        .kanban-column { flex: 1; min-width: 280px; background-color: var(--color-bg); border-radius: 8px; padding: 15px; }
+        .kanban-column h3 { margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid var(--color-border); color: var(--color-text-primary); }
         .kanban-column[data-status="未着手"] { border-top: 3px solid var(--color-danger); }
         .kanban-column[data-status="作業中"] { border-top: 3px solid var(--color-primary); }
         .kanban-column[data-status="完了"] { border-top: 3px solid var(--color-success); }
-        
         .kanban-card-list { display: flex; flex-direction: column; gap: 10px; }
         .kanban-card {
-            background-color: var(--color-surface);
-            border-radius: 6px;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            border-left: 5px solid var(--color-primary); /* デフォルト */
+            background-color: var(--color-surface); border-radius: 6px; padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid;
+            position: relative;
         }
-        /* カードの左枠を優先度で色分け */
         .kanban-card[data-priority="S"] { border-left-color: var(--color-danger); }
         .kanban-card[data-priority="A"] { border-left-color: var(--color-warning); }
         .kanban-card[data-priority="B"] { border-left-color: var(--color-primary); }
         .kanban-card[data-priority="C"] { border-left-color: var(--color-success); }
-        
         .kanban-card .task-subject { font-size: 1em; }
         .kanban-card .task-name { font-size: 0.85em; }
-        .kanban-card .task-controls { margin-top: 10px; flex-direction: row; }
+        .kanban-card .task-completion-date { font-size: 0.75em; }
+        .kanban-card .task-controls { margin-top: 10px; flex-direction: column; gap: 5px; }
         .kanban-card .task-status-select, .kanban-card .task-priority-select { padding: 5px 8px; width: 100%; }
-        .kanban-card .delete-task-btn { position: absolute; top: 5px; right: 5px; } /* カンバンでは削除ボタン非表示 (簡略化のため) */
+        .kanban-card .edit-task-btn { position: absolute; top: 5px; right: 5px; }
 
-        /* === ★ プランナー: フッターコントロール === */
+        /* プランナー: フッター */
         #planner-footer {
-            padding: 20px 30px;
-            border-top: 1px solid var(--color-border);
-            background-color: var(--color-bg);
-            display: flex;
-            gap: 10px;
+            padding: 20px 30px; border-top: 1px solid var(--color-border);
+            background-color: var(--color-bg); display: flex; flex-wrap: wrap; gap: 10px;
         }
-        
-        /* === 2. ポモドーロタイマーページ === */
-        #page-timer {
-            text-align: center;
-            padding: 40px 30px;
-        }
-        #timer-display {
-            font-size: 6em; /* 巨大に */
-            font-weight: 200;
-            margin: 20px 0;
-            color: var(--color-primary);
-        }
-        #timer-mode {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: var(--color-text-secondary);
-        }
-        #timer-controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-        }
-        #timer-controls button {
-            font-size: 1.1em;
-            padding: 12px 25px;
-        }
+        .btn-import { background-color: var(--color-success); color: white; }
+        .btn-import:hover { background-color: #218838; }
+        #import-file-input { display: none; }
 
-        /* === ★ 新機能: タスク追加モーダル === */
-        #add-task-modal {
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 0; /* JSでアニメーションさせるためpaddingは内側で */
-            max-width: 500px;
-            background-color: var(--color-surface);
-            color: var(--color-text-primary);
+        /* === 2. タイマーページ === */
+        #page-timer { text-align: center; padding: 40px 30px; }
+        #timer-display { font-size: 6em; font-weight: 200; margin: 20px 0; color: var(--color-primary); }
+        #timer-mode-select { margin-bottom: 20px; }
+        #custom-timer-inputs { display: none; gap: 10px; justify-content: center; margin-top: 10px; }
+        #custom-timer-inputs input { width: 60px; }
+        #timer-controls { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
+        #timer-controls button { font-size: 1.1em; padding: 12px 25px; }
+
+        /* === 3. グラフページ === */
+        #page-graph .chart-container {
+            margin-bottom: 30px; padding: 20px;
+            background: var(--color-bg); border-radius: 8px;
         }
-        /* backdrop（背景）のスタイル */
-        #add-task-modal::backdrop {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(3px);
+        .bar-chart { display: flex; gap: 10px; align-items: flex-end; height: 150px; border-bottom: 2px solid var(--color-border-input); }
+        .bar { width: 100%; background-color: var(--color-primary); text-align: center; color: white; font-weight: bold; position: relative; }
+        .bar .label { position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 0.9em; color: var(--color-text-secondary); }
+        .bar .value { font-size: 0.8em; padding-top: 5px; }
+        .pie-chart-container { display: flex; gap: 20px; align-items: center; }
+        .pie-chart { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(var(--color-danger) 0% 25%, var(--color-warning) 25% 50%, var(--color-primary) 50% 75%, var(--color-success) 75% 100%); }
+        .pie-legend { display: flex; flex-direction: column; gap: 8px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9em; }
+        .legend-color { width: 16px; height: 16px; border-radius: 3px; }
+
+        /* === 4. メモ帳ページ === */
+        #page-memo { padding: 0 30px 30px; }
+        #memo-pad { background-color: var(--color-surface); color: var(--color-text-primary); border: 1px solid var(--color-border-input); }
+
+        /* === モーダル共通 === */
+        dialog {
+            border: none; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 0; max-width: 500px; width: 90%;
+            background-color: var(--color-surface); color: var(--color-text-primary);
         }
-        
+        dialog::backdrop { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(3px); }
         .modal-content { padding: 30px; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .modal-header h2 { margin: 0; }
-        #close-modal-btn { background: none; border: none; font-size: 1.5em; color: var(--color-text-secondary); }
-        
-        #add-task-form { display: flex; flex-direction: column; gap: 15px; }
+        .close-modal-btn { background: none; border: none; font-size: 1.5em; color: var(--color-text-secondary); }
+        form { display: flex; flex-direction: column; gap: 15px; }
         .form-group { display: flex; flex-direction: column; gap: 5px; }
         .form-group label { font-weight: 600; }
-        .form-group input, .form-group select { width: 100%; box-sizing: border-box; } /* paddingを考慮 */
-        .modal-footer { margin-top: 25px; text-align: right; }
-
+        .form-group input, .form-group select { width: 100%; }
+        .modal-footer { margin-top: 25px; display: flex; justify-content: space-between; align-items: center; }
+        
     </style>
+
+    <style id="print-styles" type="text/css">
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', 'Noto Sans CJK JP', 'Yu Gothic', Meiryo, sans-serif;
+            margin: 20mm;
+            font-size: 10pt;
+        }
+        @page {
+            size: A4 portrait;
+            margin: 20mm;
+        }
+        h1 {
+            font-size: 18pt;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            color: #000;
+        }
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11pt;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .header-info .deadline { font-weight: bold; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #999;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+            word-break: break-all;
+            color: #000;
+        }
+        th {
+            background-color: #f0f0f0;
+            font-size: 9pt;
+        }
+        th:nth-child(1) { width: 18%; } /* 科目 */
+        th:nth-child(2) { width: 35%; } /* タスク内容 */
+        th:nth-child(3) { width: 8%; }  /* 優先度 */
+        th:nth-child(4) { width: 12%; } /* ステータス */
+        th:nth-child(5) { width: 27%; } /* 完了日時 */
+    </style>
+
 </head>
-<body data-theme="light"> <div class="container">
+<body data-theme="light">
+
+    <div class="container">
 
         <nav>
             <div class="nav-tabs">
-                <button id="nav-planner" class="nav-tab active" data-page="planner">📖 プランナー</button>
-                <button id="nav-timer" class="nav-tab" data-page="timer">⏱️ タイマー</button>
+                <button class="nav-tab active" data-page="planner">📖 プランナー</button>
+                <button class="nav-tab" data-page="timer">⏱️ タイマー</button>
+                <button class="nav-tab" data-page="graph">📊 グラフ</button>
+                <button class="nav-tab" data-page="memo">📝 メモ帳</button>
             </div>
             <div class="nav-controls">
                 <button id="dark-mode-toggle" title="ダークモード切替">☀️</button>
@@ -314,7 +308,6 @@
             <header>
                 <h1 id="main-title">レポート進捗プランナー</h1>
                 <h2 id="deadline-display">締め切り: --/--</h2>
-                
                 <div id="month-selector">
                     <button class="month-tab" data-month="11">11月</button>
                     <button class="month-tab" data-month="12">12月</button>
@@ -322,13 +315,11 @@
                     <button class="month-tab" data-month="2">2月</button>
                     <button class="month-tab" data-month="3">3月</button>
                 </div>
-                
                 <div id="progress-summary">進捗: 0 / 0 完了</div>
                 <div id="progress-bar-container">
                     <div id="progress-bar"></div>
                 </div>
             </header>
-
             <div id="planner-controls">
                 <div class="control-group">
                     <label for="view-mode-toggle">表示:</label>
@@ -337,47 +328,76 @@
                         <option value="board">カンバンボード表示</option>
                     </select>
                 </div>
+                <div class="control-group">
+                    <input type="text" id="search-task" placeholder="タスクを検索...">
+                    <input type="checkbox" id="hide-completed-toggle">
+                    <label for="hide-completed-toggle">完了を隠す</label>
+                </div>
                 <button id="add-task-btn" class="btn-primary">＋ タスクを追加</button>
             </div>
-
             <section id="task-display-area">
                 <div id="task-list"></div>
-                <div id="kanban-board" style="display: none;">
-                    <div class="kanban-column" data-status="未着手">
-                        <h3>未着手</h3>
-                        <div class="kanban-card-list" id="kanban-col-todo"></div>
-                    </div>
-                    <div class="kanban-column" data-status="作業中">
-                        <h3>作業中</h3>
-                        <div class="kanban-card-list" id="kanban-col-doing"></div>
-                    </div>
-                    <div class="kanban-column" data-status="完了">
-                        <h3>完了</h3>
-                        <div class="kanban-card-list" id="kanban-col-done"></div>
-                    </div>
+                <div id="kanban-board">
+                    <div class="kanban-column" data-status="未着手"><h3>未着手</h3><div class="kanban-card-list" id="kanban-col-todo"></div></div>
+                    <div class="kanban-column" data-status="作業中"><h3>作業中</h3><div class="kanban-card-list" id="kanban-col-doing"></div></div>
+                    <div class="kanban-column" data-status="完了"><h3>完了</h3><div class="kanban-card-list" id="kanban-col-done"></div></div>
                 </div>
             </section>
             
             <footer id="planner-footer">
-                <button id="reset-button" class="btn-danger">この月の進捗をリセット</button>
-                <button id="export-data-btn" class="btn-secondary">全データ書き出し (Export JSON)</button>
+                <button id="export-data-btn" class="btn-secondary">全データ書き出し (Export)</button>
+                <label for="import-file-input" class="btn btn-import">全データ読み込み (Import)</label>
+                <input type="file" id="import-file-input" accept=".json">
+                <button id="print-report-btn" class="btn-print">今月のレポートを印刷 📄</button>
             </footer>
         </main>
 
         <main id="page-timer" class="page">
-            <h2 id="timer-mode">勉強 (25分)</h2>
+            <h2>タイマー設定</h2>
+            <select id="timer-mode-select">
+                <option value="pomodoro">ポモドーロ (25分 / 5分)</option>
+                <option value="focus">集中モード (45分 / 10分)</option>
+                <option value="short">短時間 (15分 / 3分)</option>
+                <option value="custom">カスタム</option>
+            </select>
+            <div id="custom-timer-inputs">
+                <label>勉強:<input type="number" id="custom-work-time" value="25" min="1">分</label>
+                <label>休憩:<input type="number" id="custom-break-time" value="5" min="1">分</label>
+            </div>
+            <h3 id="timer-mode-display">勉強 (25分)</h3>
             <div id="timer-display">25:00</div>
             <div id="timer-controls">
                 <button id="timer-start-pause" class="btn-primary">スタート</button>
                 <button id="timer-reset" class="btn-secondary">リセット</button>
             </div>
         </main>
+        
+        <main id="page-graph" class="page">
+            <h2>進捗グラフ</h2>
+            <div class="chart-container">
+                <h3>月別 完了タスク数</h3>
+                <div class="bar-chart" id="monthly-completion-chart"></div>
+            </div>
+            <div class="chart-container">
+                <h3>全タスク 優先度別</h3>
+                <div class="pie-chart-container" id="priority-pie-chart">
+                    <div class="pie-chart" id="priority-pie"></div>
+                    <div class="pie-legend" id="priority-pie-legend"></div>
+                </div>
+            </div>
+        </main>
+        
+        <main id="page-memo" class="page">
+            <h2>フリーメモ帳</h2>
+            <p style="color: var(--color-text-secondary); font-size: 0.9em;">入力された内容は自動でブラウザに保存されます。</p>
+            <textarea id="memo-pad" placeholder="ここにメモを入力..."></textarea>
+        </main>
 
     </div> <dialog id="add-task-modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>新規タスクを追加</h2>
-                <button id="close-modal-btn">✕</button>
+                <button class="close-modal-btn">✕</button>
             </div>
             <form id="add-task-form">
                 <div class="form-group">
@@ -403,34 +423,77 @@
             </form>
         </div>
     </dialog>
+    
+    <dialog id="edit-task-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>タスクを編集</h2>
+                <button class="close-modal-btn">✕</button>
+            </div>
+            <form id="edit-task-form">
+                <div class="form-group">
+                    <label for="edit-task-subject">科目</label>
+                    <input type="text" id="edit-task-subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-task-name">タスク内容</label>
+                    <input type="text" id="edit-task-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-task-priority">優先度</label>
+                    <select id="edit-task-priority">
+                        <option value="S">S (最高)</option>
+                        <option value="A">A (高い)</option>
+                        <option value="B">B (普通)</option>
+                        <option value="C">C (低い)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-task-status">ステータス</label>
+                    <select id="edit-task-status">
+                        <option value="未着手">未着手</option>
+                        <option value="作業中">作業中</option>
+                        <option value="完了">完了</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="delete-task-3confirm-btn" class="btn-danger">削除</button>
+                    <button type="submit" class="btn-primary">保存する</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
 
     <template id="task-template-list">
         <div class="task-item" data-status="未着手">
             <div class="task-details">
                 <div class="task-subject">科目名</div>
                 <div class="task-name">タスク詳細</div>
+                <div class="task-completion-date"></div>
             </div>
             <div class="task-controls">
                 <select class="task-priority-select" title="優先度">
-                    <option value="S">優先度: S (最高)</option>
-                    <option value="A">優先度: A (高い)</option>
-                    <option value="B">優先度: B (普通)</option>
-                    <option value="C">優先度: C (低い)</option>
+                    <option value="S">S (最高)</option>
+                    <option value="A">A (高い)</option>
+                    <option value="B">B (普通)</option>
+                    <option value="C">C (低い)</option>
                 </select>
                 <select class="task-status-select" title="ステータス">
                     <option value="未着手">未着手</option>
                     <option value="作業中">作業中</option>
                     <option value="完了">完了</option>
                 </select>
-                <button class="delete-task-btn" title="タスクを削除">🗑️</button>
+                <button class="edit-task-btn" title="タスクを編集">✏️</button>
             </div>
         </div>
     </template>
     
     <template id="task-template-card">
         <div class="kanban-card" data-priority="B">
-            <button class="delete-task-btn" title="タスクを削除">🗑️</button> <div class="task-subject">科目名</div>
+            <button class="edit-task-btn" title="タスクを編集">✏️</button>
+            <div class="task-subject">科目名</div>
             <div class="task-name">タスク詳細</div>
+            <div class="task-completion-date"></div>
             <div class="task-controls">
                 <select class="task-priority-select" title="優先度">
                     <option value="S">S (最高)</option>
@@ -449,113 +512,124 @@
 
 
     <script>
-        // === グローバル変数 ===
+        // === グローバル変数 (V4と同じ) ===
         let allDefaultTasks = {};
-        let tasks = []; // 現在表示中の月のタスク配列
+        let tasks = [];
         let currentMonth = "11";
-        let currentViewMode = "list"; // 'list' or 'board'
+        let currentViewMode = "list";
+        let currentEditingTaskId = null;
         const STORAGE_KEY_PREFIX = 'reportTasksData_';
+        const MEMO_KEY = 'studyDashboardMemo';
+        const THEME_KEY = 'studyDashboardTheme';
         const deadlines = { "11": "11/15", "12": "12/15", "1": "1/15", "2": "2/15", "3": "3/15" };
         const priorityOrder = { "S": 1, "A": 2, "B": 3, "C": 4 };
+        const priorityColors = { "S": "var(--color-danger)", "A": "var(--color-warning)", "B": "var(--color-primary)", "C": "var(--color-success)" };
+        const MONTHS = ["11", "12", "1", "2", "3"];
 
-        // === DOM要素のキャッシュ ===
+        // === DOM要素のキャッシュ (V4と同じ) ===
         const allPages = document.querySelectorAll('.page');
         const navTabs = document.querySelectorAll('.nav-tab');
         const darkModeToggle = document.getElementById('dark-mode-toggle');
-        // プランナー
         const taskListContainer = document.getElementById('task-list');
         const kanbanBoard = document.getElementById('kanban-board');
-        const kanbanCols = {
-            "未着手": document.getElementById('kanban-col-todo'),
-            "作業中": document.getElementById('kanban-col-doing'),
-            "完了": document.getElementById('kanban-col-done')
-        };
+        const kanbanCols = { "未着手": document.getElementById('kanban-col-todo'), "作業中": document.getElementById('kanban-col-doing'), "完了": document.getElementById('kanban-col-done') };
         const taskTemplateList = document.getElementById('task-template-list');
         const taskTemplateCard = document.getElementById('task-template-card');
         const progressSummary = document.getElementById('progress-summary');
         const progressBar = document.getElementById('progress-bar');
-        const resetButton = document.getElementById('reset-button');
         const exportDataBtn = document.getElementById('export-data-btn');
+        const importFileInput = document.getElementById('import-file-input');
+        const printReportBtn = document.getElementById('print-report-btn');
         const monthSelector = document.getElementById('month-selector');
         const mainTitle = document.getElementById('main-title');
         const deadlineDisplay = document.getElementById('deadline-display');
         const viewModeToggle = document.getElementById('view-mode-toggle');
-        // モーダル
+        const searchInput = document.getElementById('search-task');
+        const hideCompletedToggle = document.getElementById('hide-completed-toggle');
         const addTaskBtn = document.getElementById('add-task-btn');
         const addTaskModal = document.getElementById('add-task-modal');
-        const closeModalBtn = document.getElementById('close-modal-btn');
         const addTaskForm = document.getElementById('add-task-form');
-        // タイマー
+        const editTaskModal = document.getElementById('edit-task-modal');
+        const editTaskForm = document.getElementById('edit-task-form');
+        const delete3ConfirmBtn = document.getElementById('delete-task-3confirm-btn');
         const timerDisplay = document.getElementById('timer-display');
-        const timerModeDisplay = document.getElementById('timer-mode');
+        const timerModeDisplay = document.getElementById('timer-mode-display');
         const timerStartPauseBtn = document.getElementById('timer-start-pause');
         const timerResetBtn = document.getElementById('timer-reset');
+        const timerModeSelect = document.getElementById('timer-mode-select');
+        const customTimerInputs = document.getElementById('custom-timer-inputs');
+        const customWorkTime = document.getElementById('custom-work-time');
+        const customBreakTime = document.getElementById('custom-break-time');
+        const monthlyChartContainer = document.getElementById('monthly-completion-chart');
+        const priorityPie = document.getElementById('priority-pie');
+        const priorityPieLegend = document.getElementById('priority-pie-legend');
+        const memoPad = document.getElementById('memo-pad');
 
-
-        // === 1. ページ初期化処理 ===
+        // === 1. ページ初期化処理 (V4と同じ) ===
         document.addEventListener('DOMContentLoaded', async () => {
-            // デフォルトデータをフェッチ
             await fetchDefaultTasks();
             
-            // ナビゲーションイベント
             document.querySelector('nav').addEventListener('click', (e) => {
-                if (e.target.matches('.nav-tab')) {
-                    showPage(e.target.dataset.page);
-                }
+                if (e.target.matches('.nav-tab')) showPage(e.target.dataset.page);
             });
             
-            // ダークモード
             darkModeToggle.addEventListener('click', toggleDarkMode);
-            loadTheme(); // 保存されたテーマを読み込む
+            loadTheme();
 
-            // --- プランナー関連 ---
             monthSelector.addEventListener('click', (e) => {
-                if (e.target.matches('.month-tab')) {
-                    switchMonth(e.target.dataset.month);
-                }
+                if (e.target.matches('.month-tab')) switchMonth(e.target.dataset.month);
             });
-            
-            resetButton.addEventListener('click', resetProgress);
             exportDataBtn.addEventListener('click', exportAllData);
+            importFileInput.addEventListener('change', importData);
+            printReportBtn.addEventListener('click', handlePrintReport); // ★ 印刷処理
             viewModeToggle.addEventListener('change', (e) => switchViewMode(e.target.value));
+            searchInput.addEventListener('input', () => renderTasks(false));
+            hideCompletedToggle.addEventListener('change', () => renderTasks(false));
 
-            // モーダルイベント
             addTaskBtn.addEventListener('click', () => addTaskModal.showModal());
-            closeModalBtn.addEventListener('click', () => addTaskModal.close());
+            addTaskModal.querySelector('.close-modal-btn').addEventListener('click', () => addTaskModal.close());
             addTaskForm.addEventListener('submit', handleAddTask);
             
-            // --- タイマー関連 ---
+            editTaskModal.querySelector('.close-modal-btn').addEventListener('click', () => editTaskModal.close());
+            editTaskForm.addEventListener('submit', handleEditTask);
+            delete3ConfirmBtn.addEventListener('click', handleDelete3Confirm);
+
             timerStartPauseBtn.addEventListener('click', timer.startPause);
             timerResetBtn.addEventListener('click', timer.reset);
+            timerModeSelect.addEventListener('change', timer.selectMode);
             
-            // --- 初期表示 ---
-            switchMonth(currentMonth); // 11月で初期化
-            showPage('planner'); // プランナーを最初に表示
+            memoPad.addEventListener('input', saveMemo);
+            loadMemo();
+
+            switchMonth(currentMonth);
+            showPage('planner');
         });
         
-        // === 2. ページ切替ロジック ===
+        // === 2. ページ切替ロジック (V4と同じ) ===
         function showPage(pageId) {
             allPages.forEach(page => page.classList.toggle('active', page.id === `page-${pageId}`));
             navTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.page === pageId));
+            if (pageId === 'graph') {
+                renderGraphPage();
+            }
         }
 
-        // === 3. ダークモードロジック ===
+        // === 3. ダークモードロジック (V4と同じ) ===
         function toggleDarkMode() {
-            const currentTheme = document.body.dataset.theme;
-            const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+            const newTheme = (document.body.dataset.theme === 'dark') ? 'light' : 'dark';
             setTheme(newTheme);
-            localStorage.setItem('theme', newTheme);
+            localStorage.setItem(THEME_KEY, newTheme);
         }
         function setTheme(theme) {
             document.body.dataset.theme = theme;
             darkModeToggle.textContent = (theme === 'dark') ? '☀️' : '🌙';
         }
         function loadTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
+            const savedTheme = localStorage.getItem(THEME_KEY) || 'light';
             setTheme(savedTheme);
         }
 
-        // === 4. プランナー: データ管理 ===
+        // === 4. プランナー: データ管理 (V4と同じ) ===
         async function fetchDefaultTasks() {
             try {
                 const response = await fetch(`tasks.json?t=${new Date().getTime()}`);
@@ -566,19 +640,15 @@
                 mainTitle.textContent = "エラー: tasks.json が読み込めません";
             }
         }
-
         function switchMonth(month) {
             currentMonth = month;
             mainTitle.textContent = `${month}月分 レポートプランナー`;
             deadlineDisplay.textContent = `締め切り: ${deadlines[currentMonth] || '--/--'}`;
-            
             monthSelector.querySelectorAll('.month-tab').forEach(tab => {
                 tab.classList.toggle('active', tab.dataset.month === month);
             });
-            
             loadTasksForCurrentMonth();
         }
-
         function loadTasksForCurrentMonth() {
             const STORAGE_KEY = STORAGE_KEY_PREFIX + currentMonth;
             const savedData = localStorage.getItem(STORAGE_KEY);
@@ -587,294 +657,459 @@
                 tasks = JSON.parse(savedData);
             } else {
                 tasks = allDefaultTasks[currentMonth] ? JSON.parse(JSON.stringify(allDefaultTasks[currentMonth])) : [];
-                if (tasks.length > 0) saveTasks(); // デフォルトを保存
+                if (tasks.length > 0) saveTasks();
             }
-            renderTasks();
+            renderTasks(true);
         }
-
         function saveTasks() {
-            const STORAGE_KEY = STORAGE_KEY_PREFIX + currentMonth;
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+            localStorage.setItem(STORAGE_KEY_PREFIX + currentMonth, JSON.stringify(tasks));
         }
 
-        function resetProgress() {
-            if (confirm(`【${currentMonth}月】の進捗をすべてリセットします。\n(追加したタスクも消え、JSONの初期状態に戻ります)\nよろしいですか？`)) {
-                localStorage.removeItem(STORAGE_KEY_PREFIX + currentMonth);
-                loadTasksForCurrentMonth();
-            }
-        }
-        
-        // === 5. プランナー: タスクのCRUD (追加・削除・変更) ===
-        
+        // === 5. プランナー: タスクのCRUD (V4と同じ) ===
         function handleAddTask(e) {
             e.preventDefault();
-            const subject = document.getElementById('task-subject').value;
-            const name = document.getElementById('task-name').value;
-            const priority = document.getElementById('task-priority').value;
-            
-            // ユニークIDを生成 (現在時刻のミリ秒)
-            const newId = Date.now(); 
-            
             const newTask = {
-                id: newId,
-                subject: subject,
-                taskName: name,
-                priority: priority,
-                status: "未着手"
+                id: Date.now(),
+                subject: document.getElementById('task-subject').value,
+                taskName: document.getElementById('task-name').value,
+                priority: document.getElementById('task-priority').value,
+                status: "未着手",
+                completedAt: null
             };
-            
             tasks.push(newTask);
             saveTasks();
-            renderTasks(); // リストを再描画
-            
-            addTaskModal.close(); // モーダルを閉じる
-            addTaskForm.reset(); // フォームをリセット
+            renderTasks(true);
+            addTaskModal.close();
+            addTaskForm.reset();
         }
-        
-        function handleDeleteTask(taskId) {
-            if (confirm('このタスクを削除しますか？')) {
-                tasks = tasks.filter(t => t.id !== taskId);
-                saveTasks();
-                renderTasks(); // 削除を反映
+        function openEditModal(task) {
+            currentEditingTaskId = task.id;
+            document.getElementById('edit-task-subject').value = task.subject;
+            document.getElementById('edit-task-name').value = task.taskName;
+            document.getElementById('edit-task-priority').value = task.priority;
+            document.getElementById('edit-task-status').value = task.status;
+            editTaskModal.showModal();
+        }
+        function handleEditTask(e) {
+            e.preventDefault();
+            const taskIndex = tasks.findIndex(t => t.id === currentEditingTaskId);
+            if (taskIndex === -1) return;
+            
+            const oldStatus = tasks[taskIndex].status;
+            const newStatus = document.getElementById('edit-task-status').value;
+            let completedAt = tasks[taskIndex].completedAt;
+            
+            if (newStatus === '完了' && oldStatus !== '完了') {
+                completedAt = new Date().toISOString();
+            } else if (newStatus !== '完了') {
+                completedAt = null;
+            }
+            
+            tasks[taskIndex] = {
+                ...tasks[taskIndex],
+                subject: document.getElementById('edit-task-subject').value,
+                taskName: document.getElementById('edit-task-name').value,
+                priority: document.getElementById('edit-task-priority').value,
+                status: newStatus,
+                completedAt: completedAt
+            };
+            
+            saveTasks();
+            renderTasks(true);
+            editTaskModal.close();
+            currentEditingTaskId = null;
+        }
+        function handleDelete3Confirm() {
+            if (currentEditingTaskId === null) return;
+            if (confirm("本当にこのタスクを削除しますか？ (1/3)")) {
+                if (confirm("あと2回確認します。この操作は取り消せません。 (2/3)")) {
+                    if (confirm("最後の確認です。タスクを完全に削除します。 (3/3)")) {
+                        tasks = tasks.filter(t => t.id !== currentEditingTaskId);
+                        saveTasks();
+                        renderTasks(true);
+                        editTaskModal.close();
+                        currentEditingTaskId = null;
+                    }
+                }
             }
         }
-
         function handleStatusChange(taskId, newStatus) {
             const task = tasks.find(t => t.id === taskId);
             if (task) {
+                if (newStatus === '完了' && task.status !== '完了') {
+                    task.completedAt = new Date().toISOString();
+                } else if (newStatus !== '完了') {
+                    task.completedAt = null;
+                }
                 task.status = newStatus;
                 saveTasks();
-                // 全体を再描画 (カンバンボードの移動を反映するため)
-                renderTasks();
+                renderTasks(false);
             }
         }
-
         function handlePriorityChange(taskId, newPriority) {
             const task = tasks.find(t => t.id === taskId);
             if (task) {
                 task.priority = newPriority;
                 saveTasks();
-                // 優先度ソートを反映するため再描画
-                renderTasks();
+                renderTasks(true);
             }
         }
+        function formatDate(isoString) {
+            if (!isoString) return "";
+            try {
+                const d = new Date(isoString);
+                return d.toLocaleString('ja-JP', {
+                    year: 'numeric', month: '2-digit', day: '2-digit',
+                    hour: '2-digit', minute: '2-digit'
+                });
+            } catch (e) { return "---"; }
+        }
 
-        // === 6. プランナー: 描画ロジック ===
-        
+        // === 6. プランナー: 描画ロジック (V4と同じ) ===
         function switchViewMode(mode) {
             currentViewMode = mode;
             if (mode === 'list') {
                 taskListContainer.style.display = 'block';
                 kanbanBoard.style.display = 'none';
             } else {
-                taskListContainer.style.display = 'none';
+                taskListContainer.style.display = 'flex';
                 kanbanBoard.style.display = 'flex';
             }
-            renderTasks(); // ビューを切り替えて再描画
+            renderTasks(false);
         }
-
-        function renderTasks() {
-            // 常に優先度でソート
-            tasks.sort((a, b) => {
-                return (priorityOrder[a.priority] || 99) - (priorityOrder[b.priority] || 99);
+        function renderTasks(runSort = true) {
+            const searchTerm = searchInput.value.toLowerCase();
+            const hideCompleted = hideCompletedToggle.checked;
+            let filteredTasks = tasks.filter(task => {
+                const isMatch = task.subject.toLowerCase().includes(searchTerm) || task.taskName.toLowerCase().includes(searchTerm);
+                const isHidden = hideCompleted && task.status === '完了';
+                return isMatch && !isHidden;
             });
-            
+            if (runSort) {
+                filteredTasks.sort((a, b) => (priorityOrder[a.priority] || 99) - (priorityOrder[b.priority] || 99));
+            }
             if (currentViewMode === 'list') {
-                renderListView();
+                renderListView(filteredTasks);
             } else {
-                renderBoardView();
+                renderBoardView(filteredTasks);
             }
             updateSummary();
         }
-
-        function renderListView() {
-            taskListContainer.innerHTML = ''; // リストをクリア
-            tasks.forEach(task => {
+        function renderListView(tasksToRender) {
+            taskListContainer.innerHTML = '';
+            tasksToRender.forEach(task => {
                 const taskElement = document.importNode(taskTemplateList.content, true);
-                
-                // データ設定
                 const itemDiv = taskElement.querySelector('.task-item');
                 itemDiv.dataset.status = task.status;
-                
                 taskElement.querySelector('.task-subject').textContent = task.subject;
                 taskElement.querySelector('.task-name').textContent = task.taskName;
-                
+                const completionDateEl = taskElement.querySelector('.task-completion-date');
+                completionDateEl.textContent = task.completedAt ? `完了: ${formatDate(task.completedAt)}` : "";
                 const prioritySelect = taskElement.querySelector('.task-priority-select');
                 prioritySelect.value = task.priority;
                 prioritySelect.dataset.priority = task.priority;
-                
                 const statusSelect = taskElement.querySelector('.task-status-select');
                 statusSelect.value = task.status;
-                
-                // イベントリスナー
                 prioritySelect.addEventListener('change', () => handlePriorityChange(task.id, prioritySelect.value));
                 statusSelect.addEventListener('change', () => handleStatusChange(task.id, statusSelect.value));
-                taskElement.querySelector('.delete-task-btn').addEventListener('click', () => handleDeleteTask(task.id));
-                
+                taskElement.querySelector('.edit-task-btn').addEventListener('click', () => openEditModal(task));
                 taskListContainer.appendChild(taskElement);
             });
         }
-        
-        function renderBoardView() {
-            // 3つのカラムを一度クリア
+        function renderBoardView(tasksToRender) {
             Object.values(kanbanCols).forEach(col => col.innerHTML = '');
-            
-            tasks.forEach(task => {
+            tasksToRender.forEach(task => {
                 const taskCard = document.importNode(taskTemplateCard.content, true);
-                
-                // データ設定
                 const cardDiv = taskCard.querySelector('.kanban-card');
                 cardDiv.dataset.priority = task.priority;
-                
                 taskCard.querySelector('.task-subject').textContent = task.subject;
                 taskCard.querySelector('.task-name').textContent = task.taskName;
-                
+                const completionDateEl = taskCard.querySelector('.task-completion-date');
+                completionDateEl.textContent = task.completedAt ? `完了: ${formatDate(task.completedAt)}` : "";
                 const prioritySelect = taskCard.querySelector('.task-priority-select');
                 prioritySelect.value = task.priority;
                 prioritySelect.dataset.priority = task.priority;
-                
                 const statusSelect = taskCard.querySelector('.task-status-select');
                 statusSelect.value = task.status;
-
-                // イベントリスナー
                 prioritySelect.addEventListener('change', () => handlePriorityChange(task.id, prioritySelect.value));
                 statusSelect.addEventListener('change', () => handleStatusChange(task.id, statusSelect.value));
-                taskCard.querySelector('.delete-task-btn').addEventListener('click', () => handleDeleteTask(task.id));
-                
-                // 該当するステータスのカラムに追加
+                taskCard.querySelector('.edit-task-btn').addEventListener('click', () => openEditModal(task));
                 if (kanbanCols[task.status]) {
                     kanbanCols[task.status].appendChild(taskCard);
                 }
             });
         }
-
         function updateSummary() {
             const completedCount = tasks.filter(t => t.status === '完了').length;
             const totalCount = tasks.length;
             progressSummary.textContent = `進捗: ${completedCount} / ${totalCount} 完了`;
-            
             const percentage = (totalCount > 0) ? (completedCount / totalCount) * 100 : 0;
             progressBar.style.width = `${percentage}%`;
         }
         
-        // === 7. プランナー: データ書き出し (JSON生成) ===
-        function exportAllData() {
-            if (!confirm('ブラウザに保存されている全月の進捗データをJSONファイルとしてダウンロードしますか？')) {
-                return;
-            }
-            
+        // === 7. プランナー: データ インポート/エクスポート (V4と同じ) ===
+        function loadAllDataFromStorage() {
             let allData = {};
-            // ストレージキー（11, 12, 1, 2, 3月）をループ
-            const monthsToExport = ["11", "12", "1", "2", "3"];
-            
-            monthsToExport.forEach(month => {
+            MONTHS.forEach(month => {
                 const storageKey = STORAGE_KEY_PREFIX + month;
                 const savedData = localStorage.getItem(storageKey);
-                
                 if (savedData) {
                     allData[month] = JSON.parse(savedData);
                 } else {
-                    // 保存データがない場合は、JSONのデフォルトデータ（もしあれば）を入れる
                     allData[month] = allDefaultTasks[month] ? allDefaultTasks[month] : [];
                 }
             });
-            
-            const dataStr = JSON.stringify(allData, null, 2); // 見やすくフォーマット
+            return allData;
+        }
+        function exportAllData() {
+            if (!confirm('ブラウザに保存されている全月の進捗データをJSONファイルとしてダウンロードしますか？')) return;
+            const allData = loadAllDataFromStorage();
+            const dataStr = JSON.stringify(allData, null, 2);
             const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
             const exportLink = document.createElement('a');
             exportLink.setAttribute('href', dataUri);
             exportLink.setAttribute('download', 'report_data.json');
             exportLink.click();
         }
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    if (!confirm('データをインポートします。現在ブラウザに保存されている全進捗は上書きされます。よろしいですか？')) {
+                        importFileInput.value = ''; return;
+                    }
+                    let importedMonths = 0;
+                    MONTHS.forEach(month => {
+                        if (importedData[month]) {
+                            const migratedData = importedData[month].map(task => ({ ...task, completedAt: task.completedAt || null }));
+                            localStorage.setItem(STORAGE_KEY_PREFIX + month, JSON.stringify(migratedData));
+                            importedMonths++;
+                        }
+                    });
+                    alert(`${importedMonths}ヶ月分のデータをインポートしました。\nページを再読み込みします。`);
+                    location.reload();
+                } catch (err) { alert('エラー: JSONファイルの読み込みに失敗しました。\n' + err.message); }
+                importFileInput.value = '';
+            };
+            reader.readAsText(file);
+        }
+        
+        // === ★★★ 変更点 ★★★ ===
+        // 8. プランナー: レポート印刷処理 (CSS分離版)
+        function handlePrintReport() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const hideCompleted = hideCompletedToggle.checked;
+            let tasksToPrint = tasks
+                .filter(task => {
+                    const isMatch = task.subject.toLowerCase().includes(searchTerm) || task.taskName.toLowerCase().includes(searchTerm);
+                    const isHidden = hideCompleted && task.status === '完了';
+                    return isMatch && !isHidden;
+                })
+                .sort((a, b) => (priorityOrder[a.priority] || 99) - (priorityOrder[b.priority] || 99));
 
-        // === 8. ポモドーロタイマーロジック ===
+            // ★ <head>から印刷用CSSを取得
+            const printStyles = document.getElementById('print-styles').innerHTML;
+
+            const printHtml = `
+                <html>
+                <head>
+                    <title>${currentMonth}月分 レポート提出表</title>
+                    <style>
+                        /* ★ 取得したCSSをここに挿入 */
+                        ${printStyles}
+                    </style>
+                </head>
+                <body>
+                    <h1>${currentMonth}月分 レポート提出表</h1>
+                    <div class="header-info">
+                        <div>氏名: _________________________</div>
+                        <div class="deadline">提出期限: ${deadlines[currentMonth] || '--/--'}</div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>科目</th>
+                                <th>タスク内容</th>
+                                <th>優先度</th>
+                                <th>ステータス</th>
+                                <th>完了日時</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tasksToPrint.map(task => `
+                                <tr>
+                                    <td>${task.subject}</td>
+                                    <td>${task.taskName}</td>
+                                    <td>${task.priority}</td>
+                                    <td>${task.status}</td>
+                                    <td>${formatDate(task.completedAt)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </body>
+                </html>
+            `;
+
+            try {
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(printHtml);
+                printWindow.document.close();
+                printWindow.focus();
+                printWindow.print();
+            } catch (e) {
+                alert('ポップアップブロックにより印刷ウィンドウを開けませんでした。ポップアップを許可してください。');
+            }
+        }
+
+        // === 9. ポモドーロタイマーロジック (V4と同じ) ===
         const timer = {
-            isRunning: false,
-            intervalId: null,
-            time: 25 * 60, // 25分 (秒)
-            mode: 'work', // 'work' or 'break'
-            
+            isRunning: false, intervalId: null, time: 25 * 60, mode: 'work',
+            workTime: 25 * 60, breakTime: 5 * 60, audioContext: null,
+            selectMode() {
+                const mode = timerModeSelect.value;
+                customTimerInputs.style.display = (mode === 'custom') ? 'flex' : 'none';
+                switch(mode) {
+                    case 'pomodoro': this.workTime = 25 * 60; this.breakTime = 5 * 60; break;
+                    case 'focus': this.workTime = 45 * 60; this.breakTime = 10 * 60; break;
+                    case 'short': this.workTime = 15 * 60; this.breakTime = 3 * 60; break;
+                    case 'custom':
+                        this.workTime = parseInt(customWorkTime.value) * 60;
+                        this.breakTime = parseInt(customBreakTime.value) * 60;
+                        break;
+                }
+                this.reset();
+            },
             startPause() {
                 if (this.isRunning) {
-                    // 一時停止
                     clearInterval(this.intervalId);
                     timerStartPauseBtn.textContent = '再開';
                 } else {
-                    // 開始・再開
                     timerStartPauseBtn.textContent = '一時停止';
+                    if (this.mode === 'custom' && this.time === this.workTime) {
+                        this.workTime = parseInt(customWorkTime.value) * 60;
+                        this.breakTime = parseInt(customBreakTime.value) * 60;
+                        this.time = this.workTime;
+                    }
                     this.intervalId = setInterval(() => this.update(), 1000);
                 }
                 this.isRunning = !this.isRunning;
             },
-            
-            update() {
-                this.time--;
-                if (this.time < 0) {
-                    this.complete();
-                }
-                this.display();
-            },
-            
+            update() { this.time--; if (this.time < 0) this.complete(); this.display(); },
             display() {
                 const minutes = Math.floor(this.time / 60).toString().padStart(2, '0');
                 const seconds = (this.time % 60).toString().padStart(2, '0');
                 timerDisplay.textContent = `${minutes}:${seconds}`;
                 document.title = `${minutes}:${seconds} - ${this.mode === 'work' ? '勉強中' : '休憩中'}`;
             },
-            
             reset() {
-                if (confirm('タイマーをリセットしますか？')) {
-                    this.setMode('work');
-                    this.display();
-                }
+                clearInterval(this.intervalId);
+                this.isRunning = false;
+                timerStartPauseBtn.textContent = 'スタート';
+                this.setModeDisplay('work');
             },
-            
             complete() {
                 clearInterval(this.intervalId);
                 this.isRunning = false;
                 this.playBeep();
-                
                 if (this.mode === 'work') {
-                    this.setMode('break');
-                    alert('お疲れ様です！ 5分間の休憩を開始します。');
+                    this.setModeDisplay('break');
+                    alert('お疲れ様です！ 休憩を開始します。');
                 } else {
-                    this.setMode('work');
+                    this.setModeDisplay('work');
                     alert('休憩終了です。勉強を再開しましょう！');
                 }
                 timerStartPauseBtn.textContent = 'スタート';
             },
-            
-            setMode(mode) {
+            setModeDisplay(mode) {
                 this.mode = mode;
                 if (mode === 'work') {
-                    this.time = 25 * 60;
-                    timerModeDisplay.textContent = '勉強 (25分)';
+                    this.time = this.workTime;
+                    timerModeDisplay.textContent = `勉強 (${this.workTime / 60}分)`;
                     timerDisplay.style.color = 'var(--color-primary)';
                 } else {
-                    this.time = 5 * 60;
-                    timerModeDisplay.textContent = '休憩 (5分)';
+                    this.time = this.breakTime;
+                    timerModeDisplay.textContent = `休憩 (${this.breakTime / 60}分)`;
                     timerDisplay.style.color = 'var(--color-success)';
                 }
                 this.display();
             },
-            
             playBeep() {
-                // シンプルなビープ音を再生
                 try {
-                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    const oscillator = audioContext.createOscillator();
+                    if (!this.audioContext) this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = this.audioContext.createOscillator();
                     oscillator.type = 'sine';
-                    oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // 440Hz (ラ)
-                    oscillator.connect(audioContext.destination);
+                    oscillator.frequency.setValueAtTime(440, this.audioContext.currentTime);
+                    oscillator.connect(this.audioContext.destination);
                     oscillator.start();
-                    oscillator.stop(audioContext.currentTime + 0.5); // 0.5秒鳴らす
-                } catch(e) {
-                    console.error("ビープ音の再生に失敗:", e);
-                }
+                    oscillator.stop(this.audioContext.currentTime + 0.5);
+                } catch(e) { console.error("ビープ音の再生に失敗:", e); }
             }
         };
 
+        // === 10. グラフページロジック (V4と同じ) ===
+        function renderGraphPage() {
+            const allData = loadAllDataFromStorage();
+            monthlyChartContainer.innerHTML = '';
+            let maxCompleted = 0;
+            const monthlyStats = MONTHS.map(month => {
+                const tasks = allData[month] || [];
+                const completed = tasks.filter(t => t.status === '完了').length;
+                if (completed > maxCompleted) maxCompleted = completed;
+                return { month: `${month}月`, completed: completed };
+            });
+            if (maxCompleted === 0) maxCompleted = 5;
+            monthlyStats.forEach(stat => {
+                const barHeight = (stat.completed / maxCompleted) * 100;
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = `${barHeight}%`;
+                bar.innerHTML = `<div class="value">${stat.completed}</div><div class="label">${stat.month}</div>`;
+                monthlyChartContainer.appendChild(bar);
+            });
+            priorityPieLegend.innerHTML = '';
+            let priorityCounts = { "S": 0, "A": 0, "B": 0, "C": 0, "Other": 0 };
+            let totalTasks = 0;
+            MONTHS.forEach(month => {
+                (allData[month] || []).forEach(task => {
+                    if (priorityCounts.hasOwnProperty(task.priority)) priorityCounts[task.priority]++;
+                    else priorityCounts["Other"]++;
+                    totalTasks++;
+                });
+            });
+            if (totalTasks === 0) {
+                priorityPie.style.background = 'var(--color-border)';
+                priorityPieLegend.innerHTML = 'タスクがありません'; return;
+            }
+            let gradientString = '';
+            let currentPercentage = 0;
+            ['S', 'A', 'B', 'C'].forEach(p => {
+                const percentage = (priorityCounts[p] / totalTasks) * 100;
+                const color = priorityColors[p];
+                if (percentage > 0) {
+                    gradientString += `, ${color} ${currentPercentage}% ${currentPercentage + percentage}%`;
+                    currentPercentage += percentage;
+                }
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.innerHTML = `<div class="legend-color" style="background-color:${color};"></div> ${p} (${priorityCounts[p]}件)`;
+                priorityPieLegend.appendChild(legendItem);
+            });
+            priorityPie.style.background = `conic-gradient(${gradientString.substring(2)})`;
+        }
+
+        // === 11. メモ帳ロジック (V4と同じ) ===
+        function saveMemo() {
+            localStorage.setItem(MEMO_KEY, memoPad.value);
+        }
+        function loadMemo() {
+            const savedMemo = localStorage.getItem(MEMO_KEY);
+            if (savedMemo) memoPad.value = savedMemo;
+        }
+        
     </script>
 </body>
 </html>
